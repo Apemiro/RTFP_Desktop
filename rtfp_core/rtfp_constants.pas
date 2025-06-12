@@ -22,6 +22,8 @@ const
   DefaultOpenExe = ''; //cmd.exe /c
   Comma_Symbol = '<_cma>';
 
+  _FileName_FieldSize_ = 768; //240;
+
   _Attrs_Basic_ = '文献基础信息';
   _Attrs_Class_ = '分类';
   _Attrs_Notes_ = '注解';

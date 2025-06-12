@@ -938,7 +938,7 @@ begin
 
   //文件位置
   Dbf.FieldDefs.Add(_Col_Paper_Folder_, ftString, 8{, True});
-  Dbf.FieldDefs.Add(_Col_Paper_FileName_, ftString, 240{, True});
+  Dbf.FieldDefs.Add(_Col_Paper_FileName_, ftString, _FileName_FieldSize_{, True});
   //重复检验
   Dbf.FieldDefs.Add(_Col_Paper_FileSize_, ftLargeInt, 8{, True});
   Dbf.FieldDefs.Add(_Col_Paper_FileHash_, ftString, 255{, True});
@@ -954,7 +954,7 @@ begin
   Dbf.FieldDefs.Add(_Col_Image_FileHash_, ftString, 255{, True});
   //文件位置
   Dbf.FieldDefs.Add(_Col_Image_Folder_, ftString, 8{, True});
-  Dbf.FieldDefs.Add(_Col_Image_FileName_, ftString, 240{, True});
+  Dbf.FieldDefs.Add(_Col_Image_FileName_, ftString, _FileName_FieldSize_{, True});
   //基础信息
   Dbf.FieldDefs.Add(_Col_Image_Width_, ftInteger, 4{, True});
   Dbf.FieldDefs.Add(_Col_Image_Height_, ftInteger, 4{, True});
@@ -967,7 +967,7 @@ begin
   Dbf.FieldDefs.Add(_Col_NID_, ftString, 8{, True});
   //文件位置
   Dbf.FieldDefs.Add(_Col_Note_Folder_, ftString, 8{, True});
-  Dbf.FieldDefs.Add(_Col_Note_FileName_, ftString, 240{, True});
+  Dbf.FieldDefs.Add(_Col_Note_FileName_, ftString, _FileName_FieldSize_{, True});
 
 end;
 

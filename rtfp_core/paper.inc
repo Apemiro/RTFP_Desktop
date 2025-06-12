@@ -154,7 +154,7 @@ var PID:RTFP_ID;
 begin
   result:='000000';
   if not FileExists(fullfilename) then begin ShowMsgOK('新建文献','文件路径无效，无法创建文献节点。');exit;end;
-  if length(fullfilename)>240 then begin ShowMsgOK('新建文献','文件路径过长，无法创建文献节点。');exit;end;
+  if length(fullfilename)>_FileName_FieldSize_ then begin ShowMsgOK('新建文献','文件路径过长，无法创建文献节点。');exit;end;
   if get_hash then FileName:=fullfilename else FileName:='';
 
   tmpPDF:=TRTFP_PDF.Create(nil,FileName,Tag['文件哈希方法']);
@@ -218,7 +218,7 @@ begin
   FileName:=ExtractFileName(fullfilename);
   TargetDir:=FFilePath+FRootFolder+'/paper/'+DateDir;
   BackupFullName:=TargetDir+'/'+FileName;
-  if length(BackupFullName)>240 then begin ShowMsgOK('新建文献','文件路径过长，无法创建文献节点。');exit;end;
+  if length(BackupFullName)>_FileName_FieldSize_ then begin ShowMsgOK('新建文献','文件路径过长，无法创建文献节点。');exit;end;
   if FileExists(BackupFullName) then begin
     case ShowMsgYesNoAll(caption_bak_exists,Format(prompts_bak_exists,[fullfilename,BackupFullName]),true) of
       'Yes':;

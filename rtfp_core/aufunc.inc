@@ -397,7 +397,7 @@ begin
   if not AAuf.TryArgToString(3,AFieldName) then exit;
   if AAuf.ArgsCount>4 then
     begin
-      AAuf.TryArgToARV(4,256,256,[ARV_Char],arv);
+      AAuf.TryArgToARV(4,256,High(pRam),[ARV_Char],arv);
       show_message:=false;
     end
   else show_message:=true;
