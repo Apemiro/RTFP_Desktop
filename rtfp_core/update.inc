@@ -114,7 +114,7 @@ end;
 
 class function TRTFP.VersionCheck(check,target:string):boolean;
 var s1,s2:TStringList;
-    pi,v1,v2:integer;
+    pi,v1,v2,ver_seg_count:integer;
 begin
   //0.1.1-alpha.18 加入
   if check='' then check:='0.0.0-alpha.0';
@@ -124,7 +124,9 @@ begin
   try
     s1.CommaText:=StringReplace(StringReplace(check,'-',',',[rfReplaceAll]),'.',',',[rfReplaceAll]);
     s2.CommaText:=StringReplace(StringReplace(target,'-',',',[rfReplaceAll]),'.',',',[rfReplaceAll]);
-    if (s1.Count<=0) or (s1.Count <> s2.Count) then raise Exception.Create('');
+    ver_seg_count:=s1.Count;
+    if s2.Count<ver_seg_count then ver_seg_count:=s2.Count;
+    if ver_seg_count<=0 then raise Exception.Create('');
     for pi:=0 to s1.Count-1 do
       begin
         try
