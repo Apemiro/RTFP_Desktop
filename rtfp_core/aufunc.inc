@@ -625,6 +625,40 @@ begin
   end;
 end;
 
+procedure aufunc_PID_Locate(Sender:TObject); //pid.locate @PID, attrs, field, value
+var AufScpt:TAufScript;
+    AAuf:TAuf;
+    PID, attrs, field, value, stmp:string;
+    arv:TAufRamVar;
+    tmpAG:TAttrsGroup;
+begin
+  AufScpt:=Sender as TAufScript;
+  AAuf:=AufScpt.Auf as TAuf;
+  if not AAuf.CheckArgs(5) then exit;
+  if not AAuf.TryArgToARV(1,6,6,[ARV_Char],arv) then exit;
+  if not AAuf.TryArgToString(2, attrs) then exit;
+  if not AAuf.TryArgToString(3, field) then exit;
+  if not AAuf.TryArgToString(4, value) then exit;
+  if ProjectInvalid then begin AufScpt.send_error('未打开工程，代码未执行。');exit;end;
+
+  PID:='';
+  if attrs='' then begin
+    with CurrentRTFP.FPaperDB do begin
+      if not Active then Open;
+      if Locate(field, value, [loCaseInsensitive]) then PID:=FieldByName(_Col_PID_).AsString;
+    end;
+  end else begin
+    tmpAG:=CurrentRTFP.FieldList.FindItemByName(attrs);
+    if tmpAG=nil then exit;
+    with tmpAG.Dbf do begin
+      if not Active then Open;
+      if Locate(field, value, [loCaseInsensitive]) then PID:=FieldByName(_Col_PID_).AsString;
+    end;
+  end;
+  initiate_arv_str(PID, arv);
+  if PID='' then AufScpt.send_error('未找到符合条件的PID！');
+end;
+
 procedure aufunc_set_field_option(Sender:TObject);//option.attrs.set Attrs Field Key value
 var AufScpt:TAufScript;
     AAuf:TAuf;
@@ -919,6 +953,7 @@ begin
 
     Script.add_func(_COMMAND_GET_FIRST_PID_,@aufunc_PID_First,        '@str','寻找第一个PID，并赋值给@str');
     Script.add_func(_COMMAND_GET_NEXT_PID_, @aufunc_PID_NextJump,     '@str,:addr','寻找第下一个PID，下一个存在则赋值给@str并跳转到:addr');
+    Script.add_func(_COMMAND_LOCATE_PID_,   @aufunc_PID_Locate,       '@str,attrs,field,value','找到符合条件的PID');
 
     Script.add_func(_COMMAND_SET_OPTION_ATTRS_,    @aufunc_set_field_option, 'attrs,field,key,value','字段显示设置');
     Script.add_func(_COMMAND_SET_OPTION_PROJECT_,  @aufunc_set_project_option, 'item,value','工程设置');
