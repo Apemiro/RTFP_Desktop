@@ -411,7 +411,7 @@ begin
         'C':FieldByName(_Col_basic_City_).AsString:=attr;
         'B':FieldByName(_Col_basic_Meeting_).AsString:=attr;
         '?':FieldByName(_Col_basic_Sponsor_).AsString:=attr;
-        '8':FieldByName(_Col_basic_PubTime_).AsString:=attr;//专利的发表时间
+        '8':FieldByName(_Col_basic_PubTime_).AsString:=StringReplace(attr,'-','/',[rfReplaceAll]);//专利的发表时间
 
       end;
       ReEditBasic;

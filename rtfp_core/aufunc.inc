@@ -782,6 +782,12 @@ begin
   AufScpt:=Sender as TAufScript;
   AAuf:=AufScpt.Auf as TAuf;
   if not AAuf.CheckArgs(3) then exit;
+
+  //aufscript beta 2.7.0.3 以来原本的字符参数不支持带引号的，所以需要将第1个参数需要脱引号
+  AAuf.nargs[1].pre:='';
+  AAuf.nargs[1].post:='';
+  AAuf.args[1]:=StringReplace(AAuf.args[1],'"','',[rfReplaceAll]);
+
   if not AAuf.TryArgToStrParam(1,['filter','sorter','cpid','filter_enabled','sorter_enabled'],false,item) then exit;
   if not AAuf.TryArgToString(2,value) then exit;
   if ProjectInvalid then begin AufScpt.send_error('未打开工程，代码未执行。');exit;end;

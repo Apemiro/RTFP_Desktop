@@ -58,7 +58,7 @@ function TForm_NewProject.GetFileFullName:string;
 var str:string;
     len:integer;
 begin
-  result:=Utf8ToWinCP(Self.Edit_ProjectPath.Caption)+'/'+Utf8ToWinCP(Self.Edit_ProjectName.Caption);
+  result:=Utf8ToWinCP(Self.Edit_ProjectPath.Caption)+Utf8ToWinCP(Self.Edit_ProjectName.Caption);
   len:=length(result);
   if len>=5 then begin
     str:=copy(result,len-4,5);
@@ -83,7 +83,7 @@ function TForm_NewProject.GetFilePath:string;
 begin
   result:=Utf8ToWinCP(Self.Edit_ProjectPath.Caption);
   ExpandFileName(result);
-  result:=result+'/';
+  result:=result+_fsplit_;
 end;
 
 procedure TForm_NewProject.Button_BrowseClick(Sender: TObject);
