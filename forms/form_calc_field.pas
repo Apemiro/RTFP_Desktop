@@ -205,11 +205,11 @@ begin
   FMatchMode:=mm_all;
   with Memo_CalcSyntaxPre.Lines do begin
     Clear;
-    Add('ifdef _apiglio_pid_,@2_lines_next');
+    Add('ifdef _apiglio_pid_,@line[+2]');
     Add('var char _apiglio_pid_ 6');
-    Add('ifdef _apiglio_res_,@2_lines_next');
+    Add('ifdef _apiglio_res_,@line[+2]');
     Add('var char _apiglio_res_ 2048');
-    Add('ifdef _apiglio_tmp_,@2_lines_next');
+    Add('ifdef _apiglio_tmp_,@line[+2]');
     Add('var char _apiglio_tmp_ 256');
     Add(_COMMAND_UPDATE_BEGIN_);
     Add(_COMMAND_GET_FIRST_PID_+' @_apiglio_pid_');
