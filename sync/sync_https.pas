@@ -11,6 +11,35 @@ function ReadWebsiteMeta(url:string;out title,author,keywords,description:string
 
 implementation
 
+
+procedure trim_html_body(m: TMemoryStream);
+var pStart, pCurrent: PChar;
+    search: string;
+    len, i: Integer;
+    found: Boolean;
+begin
+  if (m = nil) or (m.Size < 7) then Exit;
+
+  search := '</head>';
+  len := Length(search);
+  pStart := PChar(m.Memory);
+  found := False;
+  for i := 0 to m.Size - len do begin
+    pCurrent := pStart + i;
+    if StrLIComp(pCurrent, PChar(search), len) = 0 then begin
+      m.Size := i + len;
+      found := True;
+      Break;
+    end;
+  end;
+
+  if found then begin
+    search := '</html>';
+    m.Write(search[1], Length(search));
+    m.Position := 0;
+  end;
+end;
+
 function ReadWebsiteMeta(url:string;out title,author,keywords,description:string):boolean;
 var html_stream:TMemoryStream;
     html_object:THTMLDocument;
@@ -18,6 +47,7 @@ var html_stream:TMemoryStream;
     head_count,head_index:integer;
 procedure AppendIfNotEmpty(segment:string; var target:string; split:string=',');
 begin
+  segment:=StringReplace(segment,#9,'',[rfReplaceAll]); //www.fuzhou.gov.cn的meta信息有很多制表符
   if segment='' then exit;
   if target<>'' then target:=target+split;
   target:=target+segment;
@@ -35,6 +65,9 @@ begin
     AllowRedirect:=true;
     AddHeader('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36');
     Get(url,html_stream);
+
+    trim_html_body(html_stream);
+
     html_stream.Position:=0;
     //https://www.fuzhou.gov.cn/zfxxgkzl/szfbmjxsqxxgk/szfbmxxgk/fzsrmzfbgt/zfxxgkml/xzfggzhgfxwj_2570/202404/t20240423_4813255.htm
     //这个网址不能解析
